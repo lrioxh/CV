@@ -26,6 +26,8 @@ def select_button_clicked(self):
     # cv2.imshow('pic', self.img)
     if self.img.size == 1:
         return
+    if len(self.img.shape) == 3:
+        self.c = self.img.shape[2]
     refreshShow(self)
 
 def reset(self):
@@ -37,11 +39,8 @@ def reset(self):
         msg_box.exec_()
 
 def refreshShow(self):
-    if len(self.img.shape) == 3:
-        self.h, self.w, self.c = self.img.shape
-    else:
-        self.h, self.w = self.img.shape
-
+    # else:
+    #     self.h, self.w = self.img.shape
     self.imgShow = self.img
     self.h = self.imgShow.shape[0]
     self.w = self.imgShow.shape[1]
@@ -50,7 +49,20 @@ def refreshShow(self):
     # M = cv2.getRotationMatrix2D((w / 2, h / 2), 0, 1)
     M=np.float32([[1, 0, 0], [0, 1, 0]])
     # print(M)
-    if self.h/self.w>3/4:
+    if self.h/self.w==3/4:
+        data = self.imgShow.tobytes()
+        if self.c == 3:
+            image = QtGui.QImage(data, self.w, self.h, self.w * self.c, QtGui.QImage.Format_BGR888)
+        else:
+            image = QtGui.QImage(data, self.w, self.h, self.w * self.c, QtGui.QImage.Format_Grayscale8)
+
+        w_label = self.ui.label_10.width()
+        h_label = self.ui.label_10.height()
+        pix = QtGui.QPixmap.fromImage(image)
+        scale_pix = pix.scaled(w_label, h_label)
+        self.ui.label_10.setPixmap(scale_pix)
+        return
+    elif self.h/self.w>3/4:
         h_=self.h
         w_=round(self.h*4/3+0.5)
         M[0, 2] += (w_ - self.w) / 2
