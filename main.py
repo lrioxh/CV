@@ -6,6 +6,7 @@ import numpy as np
 import cv_ui
 import unit1
 import unit2
+import unit3
 
 
 # def create_uuid(): #生成唯一的图片的名称字符串
@@ -23,6 +24,7 @@ class MainDialog(QMainWindow):
         self.ui = cv_ui.Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle('CV lrioxh')
+        self.m_drag = False
 
         self.img = np.ndarray(())
         self.imgOrg=np.ndarray(())
@@ -31,7 +33,6 @@ class MainDialog(QMainWindow):
         self.h=0
         self.c=1
 
-        self.m_drag=False
         self.img2 = cv2.imread('images/Fig0327(a)(tungsten_original).tif',cv2.IMREAD_GRAYSCALE)
         self.img2Org = np.ndarray(())
         self.img2Show = np.ndarray(())
@@ -42,6 +43,18 @@ class MainDialog(QMainWindow):
         self.gMean=0
         self.gStd=0
         unit2.init(self)
+
+        self.img31 = cv2.imread('images/unit3_1.tif', cv2.IMREAD_GRAYSCALE)
+        self.img31Dft = np.ndarray(())
+        self.img31Res = np.ndarray(())
+        self.img31Fil = np.ndarray(())
+        self.w31 = 0; self.h31 = 0; self.c31 = 1
+        self.img32 = cv2.imread('images/unit3_2.tif', cv2.IMREAD_GRAYSCALE)
+        self.img32Dft = np.ndarray(())
+        self.img32Res = np.ndarray(())
+        self.img32Fil = np.ndarray(())
+        self.w32 = 0; self.h32 = 0; self.c32 = 1
+        unit3.init(self)
 
         self.ui.pushButton.clicked.connect(self.select_button_clicked)
         self.ui.pushButton_2.clicked.connect(self.showlarge)
@@ -63,6 +76,31 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_16.clicked.connect(self.CLAHE)
         self.ui.pushButton_17.clicked.connect(self.local_enhance)
         self.ui.pushButton_18.clicked.connect(self.reset2)
+
+        self.ui.pushButton_20.clicked.connect(self.DFT31)
+        self.ui.pushButton_22.clicked.connect(self.DFT32)
+        self.ui.pushButton_19.clicked.connect(self.TRAP31)
+        self.ui.pushButton_21.clicked.connect(self.iDFT31)
+        self.ui.pushButton_23.clicked.connect(self.TRAP32)
+        self.ui.pushButton_24.clicked.connect(self.iDFT32)
+
+    def iDFT32(self):
+        return unit3.iDFT32(self)
+
+    def TRAP32(self):
+        return unit3.TRAP32(self)
+
+    def iDFT31(self):
+        return unit3.iDFT31(self)
+
+    def TRAP31(self):
+        return unit3.TRAP31(self)
+
+    def DFT32(self):
+        return unit3.DFT32(self)
+
+    def DFT31(self):
+        return unit3.DFT31(self)
 
     def reset2(self):
         return unit2.reset2(self)
@@ -122,6 +160,9 @@ class MainDialog(QMainWindow):
 
     def select_button_clicked(self):
         return unit1.select_button_clicked(self)
+
+    ### U2/U3
+
     ###
     def mouseReleaseEvent(self, e):
         if Qt.LeftButton:
@@ -129,18 +170,22 @@ class MainDialog(QMainWindow):
                 return unit1.mouseReleaseEvent(self,e)
             if self.ui.tabWidget.currentIndex() == 1:
                 return unit2.mouseReleaseEvent(self,e)
-            else:
-                return 0
+            if self.ui.tabWidget.currentIndex() == 2:
+                return unit3.mouseReleaseEvent(self,e)
 
     def mousePressEvent(self, e):
         if Qt.LeftButton:
             if self.ui.tabWidget.currentIndex() == 1:
                 return unit2.mousePressEvent(self,e)
+            if self.ui.tabWidget.currentIndex() == 2:
+                return unit3.mousePressEvent(self,e)
 
     def mouseMoveEvent(self, e):
-        if self.ui.tabWidget.currentIndex() == 1:
-            if Qt.LeftButton and self.m_drag:
+        if Qt.LeftButton and self.m_drag:
+            if self.ui.tabWidget.currentIndex() == 1:
                 return unit2.mouseMoveEvent(self,e)
+            if self.ui.tabWidget.currentIndex() == 2:
+                return unit3.mouseMoveEvent(self,e)
 
 
 if __name__ == '__main__':

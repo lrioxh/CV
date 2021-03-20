@@ -56,11 +56,11 @@ def mousePressEvent(self, e):
         e.accept()
 
 def mouseMoveEvent(self, e):
-    h = self.img2Show.shape[0]
-    w = self.img2Show.shape[1]
     globalpos = e.globalPos()
     pos = self.ui.label_16.mapFromGlobal(globalpos)
     if pos.y() < 298 and pos.y() > 0 and pos.x() > 0 and pos.x() < 252:
+        h = self.img2Show.shape[0]
+        w = self.img2Show.shape[1]
         self.ui.lineEdit_9.setText('%s' % round(self.m_DragPosition.x()/252*w))
         self.ui.lineEdit_10.setText('%s' % round(pos.x()/252*w))
         self.ui.lineEdit_15.setText('%s' % round(self.m_DragPosition.y()/ 298 * h))
