@@ -1,12 +1,9 @@
 import sys
-import cv2
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import numpy as np
 import cv_ui
-import unit1
-import unit2
-import unit3
+import unit1,unit2,unit3,unit4
 
 
 # def create_uuid(): #生成唯一的图片的名称字符串
@@ -33,28 +30,9 @@ class MainDialog(QMainWindow):
         self.h=0
         self.c=1
 
-        self.img2 = cv2.imread('images/Fig0327(a)(tungsten_original).tif',cv2.IMREAD_GRAYSCALE)
-        self.img2Org = np.ndarray(())
-        self.img2Show = np.ndarray(())
-        self.img2Right=np.ndarray(())
-        self.w2 = 0
-        self.h2 = 0
-        self.c2 = 1
-        self.gMean=0
-        self.gStd=0
         unit2.init(self)
-
-        self.img31 = cv2.imread('images/unit3_1.tif', cv2.IMREAD_GRAYSCALE)
-        self.img31Dft = np.ndarray(())
-        self.img31Res = np.ndarray(())
-        self.img31Fil = np.ndarray(())
-        self.w31 = 0; self.h31 = 0; self.c31 = 1
-        self.img32 = cv2.imread('images/unit3_2.tif', cv2.IMREAD_GRAYSCALE)
-        self.img32Dft = np.ndarray(())
-        self.img32Res = np.ndarray(())
-        self.img32Fil = np.ndarray(())
-        self.w32 = 0; self.h32 = 0; self.c32 = 1
         unit3.init(self)
+        unit4.init(self)
 
         self.ui.pushButton.clicked.connect(self.select_button_clicked)
         self.ui.pushButton_2.clicked.connect(self.showlarge)
@@ -66,7 +44,6 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_8.clicked.connect(self.scale_by_pixel)
         self.ui.pushButton_9.clicked.connect(self.reset)
         self.ui.pushButton_10.clicked.connect(self.clear)
-
 
         self.ui.pushButton_11.clicked.connect(self.choosePic2)
         self.ui.pushButton_12.clicked.connect(self.globalH)
@@ -84,6 +61,32 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_23.clicked.connect(self.TRAP32)
         self.ui.pushButton_24.clicked.connect(self.iDFT32)
 
+        self.ui.pushButton_25.clicked.connect(self.showOrg4)
+        self.ui.pushButton_26.clicked.connect(self.connect1)
+        self.ui.pushButton_27.clicked.connect(self.connect2)
+        self.ui.pushButton_28.clicked.connect(self.conbine)
+        self.ui.pushButton_29.clicked.connect(self.refinement)
+        self.ui.pushButton_30.clicked.connect(self.clear4)
+
+    def clear4(self):
+        return unit4.clear4(self)
+
+    def showOrg4(self):
+        return unit4.refrashShow(self, self.img4)
+
+    def refinement(self):
+        return unit4.refinement(self)
+
+    def conbine(self):
+        return unit4.conbine(self)
+
+    def connect2(self):
+        return unit4.connect2(self)
+
+    def connect1(self):
+        return unit4.connect1(self)
+
+    ### U4/U3
     def iDFT32(self):
         return unit3.iDFT32(self)
 
@@ -102,6 +105,7 @@ class MainDialog(QMainWindow):
     def DFT31(self):
         return unit3.DFT31(self)
 
+    ### U3/U2
     def reset2(self):
         return unit2.reset2(self)
 
@@ -125,7 +129,6 @@ class MainDialog(QMainWindow):
 
     def localH(self):
         return unit2.localH(self)
-
 
     ### U2/U1
     def clear(self):
@@ -160,8 +163,6 @@ class MainDialog(QMainWindow):
 
     def select_button_clicked(self):
         return unit1.select_button_clicked(self)
-
-    ### U2/U3
 
     ###
     def mouseReleaseEvent(self, e):

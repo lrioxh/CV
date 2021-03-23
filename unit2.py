@@ -27,6 +27,11 @@ class pltFigure(FigureCanvas):
 
 
 def init(self):
+    self.img2 = cv2.imread('images/Fig0327(a)(tungsten_original).tif', cv2.IMREAD_GRAYSCALE)
+    self.img2Org = np.ndarray(())
+    self.img2Show = np.ndarray(())
+    self.img2Right = np.ndarray(())
+    self.c2 = 1
     self.gMean, self.gStd = cv2.meanStdDev(self.img2)
     self.gMean = round(self.gMean[0][0], 3)
     self.gStd = round(self.gStd[0][0], 3)

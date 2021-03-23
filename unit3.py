@@ -69,6 +69,17 @@ def mouseMoveEvent(self, e):
         e.accept()
 
 def init(self):
+    self.img31 = cv2.imread('images/unit3_1.tif', cv2.IMREAD_GRAYSCALE)
+    self.img31Dft = np.ndarray(())
+    self.img31Res = np.ndarray(())
+    self.img31Fil = np.ndarray(())
+    self.c31 = 1
+    self.img32 = cv2.imread('images/unit3_2.tif', cv2.IMREAD_GRAYSCALE)
+    self.img32Dft = np.ndarray(())
+    self.img32Res = np.ndarray(())
+    self.img32Fil = np.ndarray(())
+    self.c32 = 1
+
     self.h31, self.w31 = self.img31.shape
     self.h32, self.w32 = self.img32.shape
 
