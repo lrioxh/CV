@@ -32,9 +32,9 @@ def init(self):
     self.img2Show = np.ndarray(())
     self.img2Right = np.ndarray(())
     self.c2 = 1
-    self.gMean, self.gStd = cv2.meanStdDev(self.img2)
-    self.gMean = round(self.gMean[0][0], 3)
-    self.gStd = round(self.gStd[0][0], 3)
+    # self.gMean, self.gStd = cv2.meanStdDev(self.img2)
+    # self.gMean = round(self.gMean[0][0], 3)
+    # self.gStd = round(self.gStd[0][0], 3)
     self.h2, self.w2 = self.img2.shape
     self.img2Org=self.img2.copy()
 
@@ -169,6 +169,9 @@ def local_enhance(self):
     self.img2Right = self.img2Org.copy()
     border=int((l-1)/2)
     padding=cv2.copyMakeBorder(self.img2Org, border,border,border,border, cv2.BORDER_CONSTANT, value=0)
+    gMean, gStd = cv2.meanStdDev(padding)
+    gMean = round(gMean[0][0], 3)
+    gStd = round(gStd[0][0], 3)
     # img=padding
     for i in range(border,border+self.h2):
         for j in range(border,border+self.w2):
@@ -188,7 +191,7 @@ def local_enhance(self):
                 else:
                     S=0
 
-            if M<=k0*self.gMean and k1*self.gStd<=S and S<=k2*self.gStd:
+            if M<=k0*gMean and k1*gStd<=S and S<=k2*gStd:
                 self.img2Right[i-border,j-border]=E*padding[i,j]
                 # img[i, j] = E * padding[i, j]
     # return img

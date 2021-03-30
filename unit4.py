@@ -33,9 +33,37 @@ def thin(img):
                         if -1 < (i - 1 + k) < h and -1 < (j - 1 + l) < w and i_thin[i - 1 + k, j - 1 + l] == 0:
                             a[k * 3 + l] = 0
                 i_sum = a[0] * 1 + a[1] * 2 + a[2] * 4 + a[3] * 8 + a[5] * 16 + a[6] * 32 + a[7] * 64 + a[8] * 128
-                i_thin[i, j] = array[i_sum] * 255
+                i_thin[i, j] = array[i_sum]
 
     return i_thin
+
+def thinCross(img):
+    dst = img.copy()
+    # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    skeleton = np.zeros(dst.shape, np.float32)
+    while (1):
+        if np.sum(dst) <0.0001 :
+            break
+        dst = cv2.erode(dst, kernel)
+        open_dst = cv2.morphologyEx(dst, cv2.MORPH_OPEN, kernel)
+        result = dst - open_dst
+        skeleton = skeleton + result
+    return skeleton
+
+def thinRect(img):
+    dst = img.copy()
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    # kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    skeleton = np.zeros(dst.shape, np.float32)
+    while (1):
+        if np.sum(dst) <0.0001:
+            break
+        dst = cv2.erode(dst, kernel)
+        open_dst = cv2.morphologyEx(dst, cv2.MORPH_OPEN, kernel)
+        result = dst - open_dst
+        skeleton = skeleton + result
+    return skeleton
 
 def init(self):
     self.img4 = cv2.imread('images/4Fig1027(a)(van_original).tif', cv2.IMREAD_GRAYSCALE)
@@ -109,8 +137,14 @@ def refinement(self):
         msg_box.exec_()
         return
     # skeleton =morphology.skeletonize(self.g)
-    skeleton = thin(1 - self.g)
-    skeleton=1-skeleton
+    skeleton = np.zeros(self.g.shape, np.float32)
+    if self.ui.radioButton_5.isChecked():
+        skeleton = thinCross(self.g)
+    if self.ui.radioButton_6.isChecked():
+        skeleton = thinRect(self.g)
+    if self.ui.radioButton_7.isChecked():
+        skeleton = thin(1-self.g)
+        skeleton = 1 - skeleton
     g = np.uint8(skeleton)
     g[g==1]=255
     refrashShow(self, g)

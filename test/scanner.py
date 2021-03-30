@@ -4,6 +4,10 @@ import cv2
 import numpy as np
 from PIL import Image, ImageEnhance
 
+# 移动平均
+# 暗底帽Bottom-hat
+# 直方图均衡
+
 # def gaussian_filter(image, sigma=101):
 #     h,w=image.shape[:2]
 #     padding = cv2.copyMakeBorder(image, 0, h, 0, w, cv2.BORDER_CONSTANT, value=0)
@@ -39,7 +43,7 @@ def gauss_division(image):
     '''高斯滤波，图像除法
     image cv2'''
     src1 = image.astype(np.float32)
-    gauss = cv2.GaussianBlur(image, ksize=(101,101),sigmaX=0)
+    gauss = cv2.GaussianBlur(image, ksize=(257,257),sigmaX=64)
     print(gauss.shape)
     cv2.imshow(" ", gauss)
     cv2.waitKey()
@@ -67,18 +71,21 @@ def image_enhancement(image):
     image_brightened = enh_bri.enhance(brightness)
     return image_brightened
 
+# images/CV@P4XEUFJYC{D~1)R0D[RP.png images/HM$(}RMJND)]%JS~PYV7%]P.jpg
 img=cv2.imread('../images/HM$(}RMJND)]%JS~PYV7%]P.jpg')
-cv2.imshow(" ", img)
+cv2.imshow("img", img)
 cv2.waitKey()
 cv2.destroyAllWindows()
 step1=gauss_division(img)
-cv2.imshow(" ", step1)
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(16,16))
+# cl1 = clahe.apply(step1)
+cv2.imshow("step1", step1)
 cv2.waitKey()
 cv2.destroyAllWindows()
 image = Image.fromarray(cv2.cvtColor(step1,cv2.COLOR_BGR2RGB))
 step2=image_enhancement(image)
 step2 = cv2.cvtColor(np.asarray(step2), cv2.COLOR_RGB2BGR)
-cv2.imshow(" ", step2)
+cv2.imshow("step2", step2)
 cv2.waitKey()
 cv2.destroyAllWindows()
 # conp = np.hstack((step1,step2))
