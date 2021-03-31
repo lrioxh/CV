@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import numpy as np
 import cv_ui
-import unit1,unit2,unit3,unit4
+import unit1,unit2,unit3,unit4,unit5,unit6
 
 
 # def create_uuid(): #生成唯一的图片的名称字符串
@@ -22,18 +22,12 @@ class MainDialog(QMainWindow):
         self.ui.setupUi(self)
         self.setWindowTitle('CV lrioxh')
         self.m_drag = False
-
         self.img = np.ndarray(())
         self.imgOrg=np.ndarray(())
         self.imgShow = np.ndarray(())
         self.w=0
         self.h=0
         self.c=1
-
-        unit2.init(self)
-        unit3.init(self)
-        unit4.init(self)
-
         self.ui.pushButton.clicked.connect(self.select_button_clicked)
         self.ui.pushButton_2.clicked.connect(self.showlarge)
         self.ui.pushButton_3.clicked.connect(self.saveimg)
@@ -45,6 +39,7 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_9.clicked.connect(self.reset)
         self.ui.pushButton_10.clicked.connect(self.clear)
 
+        unit2.init(self)
         self.ui.pushButton_11.clicked.connect(self.choosePic2)
         self.ui.pushButton_12.clicked.connect(self.globalH)
         self.ui.pushButton_13.clicked.connect(self.localH)
@@ -54,6 +49,7 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_17.clicked.connect(self.local_enhance)
         self.ui.pushButton_18.clicked.connect(self.reset2)
 
+        unit3.init(self)
         self.ui.pushButton_20.clicked.connect(self.DFT31)
         self.ui.pushButton_22.clicked.connect(self.DFT32)
         self.ui.pushButton_19.clicked.connect(self.TRAP31)
@@ -61,6 +57,7 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_23.clicked.connect(self.TRAP32)
         self.ui.pushButton_24.clicked.connect(self.iDFT32)
 
+        unit4.init(self)
         self.ui.pushButton_25.clicked.connect(self.showOrg4)
         self.ui.pushButton_26.clicked.connect(self.connect1)
         self.ui.pushButton_27.clicked.connect(self.connect2)
@@ -68,6 +65,43 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_29.clicked.connect(self.refinement)
         self.ui.pushButton_30.clicked.connect(self.clear4)
 
+        unit5.init(self)
+        self.ui.pushButton_31.clicked.connect(self.original51)
+        self.ui.pushButton_32.clicked.connect(self.gradient51)
+        self.ui.pushButton_33.clicked.connect(self.H51)
+        self.ui.pushButton_35.clicked.connect(self.segmentation)
+        self.ui.pushButton_39.clicked.connect(self.original52)
+        self.ui.pushButton_36.clicked.connect(self.gradient52)
+        self.ui.pushButton_40.clicked.connect(self.H52)
+        self.ui.pushButton_37.clicked.connect(self.segmentation52)
+
+        unit6.init(self)
+
+    def original52(self):
+        return unit5.original52(self)
+
+    def segmentation52(self):
+        return unit5.segmentation52(self)
+
+    def H52(self):
+        return unit5.H52(self)
+
+    def gradient52(self):
+        return unit5.gradient52(self)
+
+    def original51(self):
+        return unit5.original51(self)
+
+    def segmentation(self):
+        return unit5.segmentation(self)
+
+    def H51(self):
+        return unit5.H51(self)
+
+    def gradient51(self):
+        return unit5.gradient51(self)
+
+    ### U5/U4
     def clear4(self):
         return unit4.clear4(self)
 

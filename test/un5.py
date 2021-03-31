@@ -9,21 +9,23 @@ cv2.waitKey(0)
 # gray = img / 255.0
 sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
 sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
-mag=np.abs(sobelx)+np.abs(sobelx)
+mag=np.abs(sobelx)+np.abs(sobely)
 # mag, ang = cv2.cartToPolar(sobelx, sobely, angleInDegrees=1)
-index=int(img.size*0.9997)
+index=int(img.size*0.997)
 threshold =np.sort(mag.reshape(1,-1))[0,index]
 # print(sort_mag)
 X, Y = np.where((mag > threshold))
 g = np.zeros(img.shape)
 g[X, Y] = 1
-# cv2.imshow("g", g)
-# cv2.waitKey(0)
-g=g*img
-print(np.max(g))
 cv2.imshow("g", g)
 cv2.waitKey(0)
+g=g*img
+print(np.max(g))
+cv2.imshow("g0", g)
+cv2.waitKey(0)
 g=g[g>0]
+# cv2.imshow("g1", g)
+# cv2.waitKey(0)
 h = np.bincount(np.uint8(g), minlength=256)
 # print(np.uint(g))
 # h,x = np.histogram(np.uint(g),256,[0,256])
@@ -67,7 +69,7 @@ threshold=int(threshold+gi.count(maxscore)*0.5)
 plt.axvline(threshold, color='r')
 # 绘制类间方差遍历过程示意图
 # plt.scatter([n for n in range(256)], (gi - min(gi)) / (max(gi) - min(gi)) * max(h))
-plt.scatter([n+1 for n in range(254)],np.array(gi)*0.5*np.max(h)/np.max(gi))
+plt.scatter([n+1 for n in range(254)],np.array(gi)*0.5*np.max(h)/np.max(gi),marker='.')
 plt.show()
 
 img[img>threshold]=255
