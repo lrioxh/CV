@@ -191,7 +191,7 @@ class RegionGrowing(ImageProcess):
         Q = np.where(self.img>=seed,1,0)
         Q = Q.astype(np.uint8)
         # 种子图片
-        cv2.imshow("img",255*Q)
+        cv2.imshow("intseed",255*Q)
         cv2.waitKey()
         return Q
         # cv2.imwrite("seed.png",255*Q)
@@ -246,17 +246,17 @@ class RegionGrowing(ImageProcess):
 
             Q_edges = new_Q_edges
             if end_flag == 1:
-                cv2.imshow("img", 255 * Q)
+                cv2.imshow("grow", 255 * Q)
                 cv2.waitKey()
                 # cv2.imwrite("region_grow_q.png",255*Q)
             # if np.sum(Q) == 0:
             #     end_flag = 1
 
-        new_img = copy.deepcopy(self.img)
-        for i, j in Q_edges:
-            new_img[i, j] = 0
-        cv2.imshow("img", new_img)
-        cv2.waitKey()
+        # new_img = copy.deepcopy(self.img)
+        # for i, j in Q_edges:
+        #     new_img[i, j] = 0
+        # cv2.imshow("img", new_img)
+        # cv2.waitKey()
 
     def threshold_two(self,t1,t2,v1,v2,v3):
         inverse_img = 255 * np.ones(self.img.shape).astype(np.uint8) - self.img
@@ -446,17 +446,17 @@ def refining(f):
 # cv2.waitKey()
 
 
-project = RegionGrowing("experiment6.tif")
+project = RegionGrowing("../images/u6.tif")
 kernel = np.ones((2, 2), np.uint8)
 
 # 最小双阈值
 inverse_img = 255*np.ones(project.img.shape).astype(np.uint8) - project.img
 ret, th = cv2.threshold(inverse_img, 68, 256, cv2.THRESH_BINARY)
-cv2.imshow('img',th)
+cv2.imshow('min 2th',th)
 cv2.waitKey()
 
 th2 = project.threshold_two(68,126,0,255,128)
-cv2.imshow('img',th2)
+cv2.imshow('2th',th2)
 cv2.waitKey()
 
 
@@ -503,7 +503,7 @@ for i in range(len(count)):
     m,n = liantong_dict[str(i+1)]
     new_Q[m,n] = 1
 
-cv2.imshow("A", 255 * Q)
-cv2.imshow('new_q',255*new_Q)
+cv2.imshow("intseed", 255 * Q)
+cv2.imshow('finseed',255*new_Q)
 cv2.waitKey()
 project.grow(new_Q)

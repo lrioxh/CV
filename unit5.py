@@ -61,22 +61,24 @@ def refrashShowRight(self):
     self.ui.label_46.setPixmap(scale_pix)
 
 def gradient51(self):
-    rate = float(self.ui.lineEdit_31.text())/100.0
-    sobelx = cv2.Sobel(self.img51, cv2.CV_64F, 1, 0, ksize=3)
-    sobely = cv2.Sobel(self.img51, cv2.CV_64F, 0, 1, ksize=3)
-    mag = np.abs(sobelx) + np.abs(sobely)
-    # mag, ang = cv2.cartToPolar(sobelx, sobely, angleInDegrees=1)
-    index = int(self.img51.size * rate)
-    threshold = np.sort(mag.reshape(1, -1))[0, index]
-    X, Y = np.where((mag > threshold))
-    g = np.zeros(self.img51.shape)
-    g[X, Y] = 1
-    self.img51Show = np.uint8(g * self.img51)
-    # cv2.imshow("g", self.img51Show)
-    # cv2.waitKey(0)
+    rate=self.ui.lineEdit_31.text()
+    if rate:
+        rate = float(rate)/100.0
+        sobelx = cv2.Sobel(self.img51, cv2.CV_64F, 1, 0, ksize=3)
+        sobely = cv2.Sobel(self.img51, cv2.CV_64F, 0, 1, ksize=3)
+        mag = np.abs(sobelx) + np.abs(sobely)
+        # mag, ang = cv2.cartToPolar(sobelx, sobely, angleInDegrees=1)
+        index = int(self.img51.size * rate)
+        threshold = np.sort(mag.reshape(1, -1))[0, index]
+        X, Y = np.where((mag > threshold))
+        g = np.zeros(self.img51.shape)
+        g[X, Y] = 1
+        self.img51Show = np.uint8(g * self.img51)
 
-    refrashShowRight(self)
-
+        refrashShowRight(self)
+    else:
+        msg_box = QMessageBox(QMessageBox.Warning, '提示', '请先输入或生成分割阈值  ')
+        msg_box.exec_()
 
 def H51(self):
     if np.sum(self.img51Show[self.img51Show < 255])==0:
@@ -128,16 +130,21 @@ def original51(self):
 
 
 def gradient52(self):
-    rate = float(self.ui.lineEdit_38.text())/100.0
-    gray_lap = cv2.Laplacian(self.img52, cv2.CV_64F, ksize=1)
-    mag = np.abs(gray_lap)
-    threshold=rate*np.max(mag)
-    X, Y = np.where((mag > threshold))
-    g = np.zeros(self.img52.shape)
-    g[X, Y] = 1
-    self.img52Show = np.uint8(g * self.img52)
+    rate=self.ui.lineEdit_38.text()
+    if rate:
+        rate = float(rate)/100.0
+        gray_lap = cv2.Laplacian(self.img52, cv2.CV_64F, ksize=3)
+        mag = np.abs(gray_lap)
+        threshold=rate*np.max(mag)
+        X, Y = np.where((mag > threshold))
+        g = np.zeros(self.img52.shape)
+        g[X, Y] = 1
+        self.img52Show = np.uint8(g * self.img52)
 
-    refrashShowLeft(self)
+        refrashShowLeft(self)
+    else:
+        msg_box = QMessageBox(QMessageBox.Warning, '提示', '请先输入  ')
+        msg_box.exec_()
 
 
 def H52(self):

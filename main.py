@@ -76,7 +76,40 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_37.clicked.connect(self.segmentation52)
 
         unit6.init(self)
+        self.ui.pushButton_34.clicked.connect(self.doubleTH)
+        self.ui.pushButton_38.clicked.connect(self.min2TH)
+        self.ui.pushButton_42.clicked.connect(self.initSeed)
+        self.ui.pushButton_43.clicked.connect(self.finSeed)
+        self.ui.pushButton_44.clicked.connect(self.grow6)
+        self.ui.pushButton_41.clicked.connect(self.original6)
+        self.ui.pushButton_46.clicked.connect(self.inverse6)
+        self.ui.pushButton_45.clicked.connect(self.H6)
 
+    def H6(self):
+        return unit6.H6(self)
+
+    def inverse6(self):
+        return unit6.inverse6(self)
+
+    def original6(self):
+        return unit6.original6(self)
+
+    def grow6(self):
+        return unit6.grow6(self)
+
+    def finSeed(self):
+        return unit6.finSeed(self)
+
+    def initSeed(self):
+        return unit6.initSeed(self)
+
+    def min2TH(self):
+        return unit6.min2TH(self)
+
+    def doubleTH(self):
+        return unit6.doubleTH(self)
+
+    ### U6/U5
     def original52(self):
         return unit5.original52(self)
 
