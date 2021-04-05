@@ -27,12 +27,12 @@ class pltFigure5(FigureCanvas):
         FigureCanvas.updateGeometry(self)
 
 def init(self):
-    self.img51 = cv2.imread('images/u51.tif', cv2.IMREAD_GRAYSCALE)
+    self.img51 = cv2.imread('../images/u51.tif', cv2.IMREAD_GRAYSCALE)
     self.img51Show = self.img51.copy()
     self.c51 = 1
     self.h51, self.w51 = self.img51.shape
 
-    self.img52 = cv2.imread('images/u52.tif', cv2.IMREAD_GRAYSCALE)
+    self.img52 = cv2.imread('../images/u52.tif', cv2.IMREAD_GRAYSCALE)
     self.img52Show = self.img52.copy()
     self.c52 = 1
     self.h52, self.w52 = self.img52.shape

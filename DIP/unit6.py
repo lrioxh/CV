@@ -27,44 +27,8 @@ class pltFigure6(FigureCanvas):
         FigureCanvas.updateGeometry(self)
 
 
-class RegionGrowing():
-    def __init__(self,img):
-        self.img=img
-
-    # def setSeed(self,seed):
-    #     if type(seed) != int:
-    #         return TypeError("Seed必须是整数值！")
-    #     if 0>seed or seed>255:
-    #         return ValueError("Seed必须在0~255之间！")
-    #     Q = np.where(self.img>=seed,1,0)
-    #     Q = Q.astype(np.uint8)
-    #     # 种子图片
-    #     # cv2.imshow("intseed",255*Q)
-    #     # cv2.waitKey()
-    #     return Q
-
-    # def grow(self,Q,maxInter=64):
-        # 确定边缘以及颜色最小值&最大值
-
-
-    def threshold_two(self,t1,t2,v1,v2,v3):# 0 255 128
-        inverse_img = 255 - self.img
-        dst=np.zeros(inverse_img.shape,np.uint8)
-        dst=v3+dst
-        dst[inverse_img>t2]=v2
-        dst[inverse_img<t1]=v1
-        # for i in range(inverse_img.shape[0]):
-        #     for j in range(inverse_img.shape[1]):
-        #         if inverse_img[i,j]<t1:
-        #             inverse_img[i,j] = v1
-        #         elif self.img[i,j]>t2:
-        #             inverse_img[i,j] = v3
-        #         else:
-        #             inverse_img[i,j] = v2
-        return dst
-
 def init(self):
-    self.img6 = np.uint8(cv2.imread('images/u6.tif', cv2.IMREAD_GRAYSCALE))
+    self.img6 = np.uint8(cv2.imread('../images/u6.tif', cv2.IMREAD_GRAYSCALE))
     self.img6Show = self.img6.copy()
     self.c6 = 1
     self.h6, self.w6 = self.img6.shape

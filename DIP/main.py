@@ -263,4 +263,4 @@ if __name__ == '__main__':
     Dlg.show()
     sys.exit(app.exec_())
 
-    # pyuic5 -o cv_ui.py untitled.ui
+    # pyuic5 -o ./DIP/cv_ui.py ./DIP/untitled.ui

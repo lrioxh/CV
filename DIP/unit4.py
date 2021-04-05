@@ -66,7 +66,7 @@ def thinRect(img):
     return skeleton
 
 def init(self):
-    self.img4 = cv2.imread('images/4Fig1027(a)(van_original).tif', cv2.IMREAD_GRAYSCALE)
+    self.img4 = cv2.imread('../images/4Fig1027(a)(van_original).tif', cv2.IMREAD_GRAYSCALE)
     self.h4, self.w4 = self.img4.shape[:2]
     self.c4 = 1
     self.g=np.ndarray(())
