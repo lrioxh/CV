@@ -78,7 +78,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>170</y>
+      <y>190</y>
       <width>301</width>
       <height>201</height>
      </rect>
@@ -99,24 +99,11 @@
       <string>去阴影</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_7">
+    <widget class="QPushButton" name="pushButton_8">
      <property name="geometry">
       <rect>
        <x>180</x>
        <y>30</y>
-       <width>81</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>MSRCR</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_8">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>110</y>
        <width>81</width>
        <height>28</height>
       </rect>
@@ -129,7 +116,7 @@
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>70</y>
+       <y>150</y>
        <width>81</width>
        <height>28</height>
       </rect>
@@ -142,20 +129,20 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>150</y>
+       <y>70</y>
        <width>81</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>线性变换</string>
+      <string>拉伸</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_12">
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>150</y>
+       <y>70</y>
        <width>81</width>
        <height>28</height>
       </rect>
@@ -167,21 +154,21 @@
     <widget class="QPushButton" name="pushButton_13">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>220</x>
        <y>110</y>
-       <width>81</width>
+       <width>41</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>开操作</string>
+      <string>开</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_15">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>70</y>
+       <y>150</y>
        <width>81</width>
        <height>28</height>
       </rect>
@@ -190,12 +177,38 @@
       <string>USM锐化</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_29">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>110</y>
+       <width>41</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>闭</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_31">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>110</y>
+       <width>81</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>中值滤波</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>400</y>
+      <y>410</y>
       <width>301</width>
       <height>201</height>
      </rect>
@@ -213,20 +226,20 @@
       </rect>
      </property>
      <property name="text">
-      <string>底冒变换</string>
+      <string>底帽变换</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_18">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>180</x>
        <y>30</y>
        <width>81</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>光照平均</string>
+      <string>亮度平均</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_19">
@@ -246,8 +259,8 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>70</y>
-       <width>81</width>
+       <y>150</y>
+       <width>71</width>
        <height>28</height>
       </rect>
      </property>
@@ -258,9 +271,9 @@
     <widget class="QPushButton" name="pushButton_21">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>70</y>
-       <width>81</width>
+       <x>120</x>
+       <y>150</y>
+       <width>71</width>
        <height>28</height>
       </rect>
      </property>
@@ -272,20 +285,20 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>150</y>
+       <y>70</y>
        <width>81</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>线性变换</string>
+      <string>拉伸</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_23">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>150</y>
+       <x>180</x>
+       <y>70</y>
        <width>81</width>
        <height>28</height>
       </rect>
@@ -297,14 +310,40 @@
     <widget class="QPushButton" name="pushButton_24">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>220</x>
        <y>110</y>
-       <width>81</width>
+       <width>41</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>开操作</string>
+      <string>开</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_28">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>110</y>
+       <width>41</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>闭</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_30">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>150</y>
+       <width>71</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>中值滤波</string>
      </property>
     </widget>
    </widget>
@@ -323,7 +362,7 @@
     <widget class="QPushButton" name="pushButton_14">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>180</x>
        <y>30</y>
        <width>81</width>
        <height>28</height>
@@ -349,7 +388,7 @@
     <widget class="QPushButton" name="pushButton_25">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>180</x>
        <y>70</y>
        <width>81</width>
        <height>28</height>
@@ -357,6 +396,19 @@
      </property>
      <property name="text">
       <string>开操作</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_27">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>70</y>
+       <width>81</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>闭操作</string>
      </property>
     </widget>
    </widget>
@@ -473,7 +525,20 @@
      </rect>
     </property>
     <property name="text">
-     <string>demo v1.00 </string>
+     <string>demo v1.74 </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_26">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>140</y>
+      <width>51</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>批处理</string>
     </property>
    </widget>
   </widget>

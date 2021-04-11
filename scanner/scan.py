@@ -3,22 +3,17 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 import cv2
 import numpy as np
-from fucRGB import *
-from fucBin import *
-from fucGray import *
+from scanner.fucRGB import *
+from scanner.fucBin import *
+from scanner.fucGray import *
 
 
 def init(self):
     self.imgCache = np.ndarray(())
-    # self.imgRGB = np.ndarray(())
     self.imgLast = np.ndarray(())
-    # self.imgShow = np.ndarray(())
-    # self.imgGray= np.ndarray(())
-    # self.imgBin= np.ndarray(())
     self.imgOgl=np.ndarray(())
-    # self.type = 0
-    # self.h = 0
-    # self.c = 1
+    self.imgMulti=[]
+    self.fname=''
     self.Ogl=0
 
 
@@ -47,9 +42,11 @@ def Binwhich(self,btn):
                 cache = seperate_otsu(cache,block=(1,1))
             elif btn==16:
                 cache = img_power_transform(cache,1, 1.9)
-                cache = movingThreshold(cache,n=20,b=0.5)
+                cache = movethreshold(cache,n=5,b=0.88)
             elif btn==25:
                 cache = binopen(cache,ks=3)
+            elif btn==27:
+                cache = binclose(cache,ks=3)
             self.imgCache[(i * hh):((i + 1) * hh), (j * hw):((j + 1) * hw)] = cache
     # self.img=gauss_division(self.img)
     # self.type=2
@@ -80,14 +77,14 @@ def Graywhich(self,btn):
         for j in range(pic):
             cache = self.imgCache[(i * hh):((i + 1) * hh), (j * hw):((j + 1) * hw)]
             if btn==17:
-                cache = hat_demo(cache,ks=5)
+                cache = hat_demo(cache,ks=50)
             elif btn==18:
                 cache = unevenLightCompensate(cache, blockSize=16)
             elif btn == 19:
                 cache = gauss_division(cache)
             elif btn == 20:
                 # k = self.ui.spinBox_2.value()
-                cache = USM(cache,0.3)
+                cache = USM(cache,0.4)
             elif btn == 21:
                 cache = sharpening(cache)
             elif btn == 22:
@@ -96,6 +93,10 @@ def Graywhich(self,btn):
                 cache = singalCLAHE(cache)
             elif btn == 24:
                 cache = grayopen(cache,ks=3)
+            elif btn == 28:
+                cache = grayclose(cache,ks=3)
+            elif btn == 30:
+                cache = cv2.medianBlur(cache,3)
             self.imgCache[(i * hh):((i + 1) * hh), (j * hw):((j + 1) * hw)] = cache
     # self.img=gauss_division(self.img)
     refreshShow(self, self.imgCache)
@@ -139,7 +140,12 @@ def RGBwhich(self,btn):
                 cache = erode(cache)
                 cache = dilate(cache)
             elif btn == 15:
-                cache = USM(cache,0.3)
+                cache = USM(cache,0.4)
+            elif btn == 29:
+                cache = dilate(cache)
+                cache = erode(cache)
+            elif btn == 31:
+                cache = cv2.medianBlur(cache, 3)
             self.imgCache[(i * hh):((i + 1) * hh), (j * hw):((j + 1) * hw), :] = cache
     # self.img=gauss_division(self.img)
     refreshShow(self, self.imgCache)
@@ -203,18 +209,51 @@ def choosepic(self):
     if root_dir:
         os.chdir(root_dir)  # 改变当前工作目录到指定的路径。
     # self.img = cv2.imread(file_name)
-    self.imgCache = cv2.imread(fileName, -1)
+    self.imgCache = cv2.imread(file_name, -1)
     # self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGR2RGB)
     os.chdir(pwd)
     # cv2.imshow('pic', self.img)
     if self.imgCache.size == 1:
         return
+    self.fname=file_name.split('.')[0]
     self.imgOgl = self.imgCache.copy()
     # self.h, self.w = self.img.shape[:2]
     if self.imgCache.shape[2] == 4:
         self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGRA2BGR)
     print(self.imgCache.shape)
     refreshShow(self,self.imgCache)
+
+def choosemulti(self):
+    fileName, tmp = QFileDialog.getOpenFileNames(self, '打开图像', 'Image', '*.png *.jpg *.bmp')
+    # print(fileName, tmp)
+    if tmp is []:
+        return
+    self.nfiles=len(fileName)
+    # print(tmp)
+    for i in range(self.nfiles):
+        root_dir, file_name = os.path.split(fileName[i])  # 按照路径将文件名和路径分割开
+        # print(tmp[i])
+        pwd = os.getcwd()  # 返回当前工作目录
+        if root_dir:
+            os.chdir(root_dir)  # 改变当前工作目录到指定的路径。
+        # self.img = cv2.imread(file_name)
+        self.imgMulti.append(cv2.imread(file_name, -1))
+        # self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGR2RGB)
+        os.chdir(pwd)
+        if self.imgMulti[i].size == 1:
+            return
+        cv2.imshow('pics', self.imgMulti[i])
+        cv2.waitKey()
+        # self.fname=file_name.split('.')[0]
+        # self.imgOgl = self.imgCache.copy()
+        # self.h, self.w = self.img.shape[:2]
+        # if self.imgCache.shape[2] == 4:
+        #     self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGRA2BGR)
+        # print(self.imgCache.shape)
+    # refreshShow(self,self.imgCache)
+    cv2.destroyAllWindows()
+    msg_box = QMessageBox(QMessageBox.Warning, '提示', '暂不支持批处理！  ')
+    msg_box.exec_()
 
 def compare(self):
     if self.Ogl==0:
@@ -272,6 +311,7 @@ def showlarge(self):
         cv2.imshow('large pic',self.imgCache)
         # cv2.setMouseCallback("large pic", self.get_rgb)
         cv2.waitKey()
+        cv2.destroyAllWindows()
     # else:
     #     msg_box = QMessageBox(QMessageBox.Warning, '提示', '图像为空  ')
     #     msg_box.exec_()
@@ -285,7 +325,7 @@ def back(self):
 
 def saveimg(self):
     if self.imgCache.size>1:
-        fileName, tmp = QFileDialog.getSaveFileName(self, '保存图像', 'Image', '*.png *.jpg *.bmp')
+        fileName, tmp = QFileDialog.getSaveFileName(self, '保存图像', str(self.fname)+'_fin', '*.png *.jpg *.bmp')
         if fileName is '':
             return
         print(fileName)
@@ -293,9 +333,7 @@ def saveimg(self):
         pwd = os.getcwd()  # 返回当前工作目录
         if root_dir:
             os.chdir(root_dir)  # 改变当前工作目录到指定的路径。
-        # self.img = cv2.imread(file_name)
-        # self.img = cv2.imread(fileName, -1)
-        cv2.imwrite(fileName, self.imgCache)
+        cv2.imwrite(file_name, self.imgCache)
         os.chdir(pwd)
     # else:
     #     msg_box = QMessageBox(QMessageBox.Warning, '提示', '图像为空，无法保存  ')
@@ -303,9 +341,6 @@ def saveimg(self):
 
 def reset(self):
     self.ui.spinBox.setValue(1)
-    # self.ui.spinBox_2.setValue(1)
-    # self.ui.spinBox_3.setValue(2)
-    # self.ui.spinBox_4.setValue(2)
     if self.imgOgl.size>1:
         self.imgCache = self.imgOgl.copy()
         refreshShow(self, self.imgCache)

@@ -5,7 +5,7 @@ import numpy as np
 def gauss_division(image):
     src = image.astype(np.float32)
     gauss = cv2.GaussianBlur(image, ksize=(201,201),sigmaX=32)
-    gauss = gauss.astype(np.float32)
+    gauss = gauss.astype(np.float32)+0.001
     dst=(src / gauss)*250
     # src1=src1* 255/np.max(src1)
     dst[dst > 255] = 255

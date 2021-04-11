@@ -1,0 +1,160 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 上传图片 -->
+  <view class="headline">
+    <view class="headline_text">
+      <text>全能扫描王</text>
+    </view>
+  </view>
+  <scroll-view scroll-y="true">
+    <view class="uploader">
+      <view class="uploader-text" bindtap="doUpload">
+        <view class='my_icon'>
+          <van-icon name="add-o" size="16px"/>
+        </view>
+        <view>
+          <text>上传图片</text>
+        </view>
+      </view>
+    </view>
+    <view class="image_box" wx:if="{{img != 0}}">
+      <!-- <image src="{{img}}" mode="widthFix"></image> -->
+      <canvas type="2d" id="canvas" style="width: 250px; height: 350px;"></canvas>
+    </view>
+
+    <view class="button-box" wx:if="{{img != 0}}">
+      <view class="button-area">
+        <view>
+          <van-button round color="#00bae2" size="small" bindtap="resetImg">重置图片</van-button>
+        </view>
+        <view>
+          <van-button round type="danger" size="small" bindtap="deleteImage">删除图片</van-button>
+        </view>
+      </view>
+    </view>
+
+    <van-tabs active="{{ active }}" wx:if="{{img != 0}}">
+      <van-tab title="RGB空间" name="rgb">
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <text>Radius</text>
+            <van-stepper value="{{ 101 }}" step="2" bind:change="radius"/>
+          </view>
+          <view class="button-area">
+            <text>Sigma</text>
+            <van-stepper value="{{ 32 }}" bind:change="sigma"/>
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <text>USM-k</text>
+            <van-stepper value="{{ 0.3 }}" step="0.1" decimal-length="{{ 1 }}" min="0" max="1.0" bind:change="usm_k"/>
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <view>
+              <van-button round type="info" size="small" bindtap="linearTransform">线性变换</van-button>
+            </view>
+            <view>
+              <van-button round type="info" size="small" bindtap="histEqual">直方图均衡</van-button>
+            </view>
+            <view>
+              <van-button round type="info" size="small" bindtap="sharpen">核锐化</van-button>
+            </view>
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <view>
+              <van-button round type="info" size="small" bindtap="usm">USM锐化</van-button>
+            </view>
+            <view>
+              <van-button round type="info" size="small" bindtap="gaussianFilter">高斯模糊</van-button>
+            </view>
+             <view>
+              <van-button round type="info" size="small" bindtap="removeShadow">去阴影</van-button>
+            </view>
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="灰度空间" name="gray">
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <text>Radius</text>
+            <van-stepper value="{{ 101 }}" step="2" bind:change="radius_gray"/>
+          </view>
+          <view class="button-area">
+            <text>Sigma</text>
+            <van-stepper value="{{ 32 }}" bind:change="sigma_gray"/>
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <text>USM-k</text>
+            <van-stepper value="{{ 0.3 }}" step="0.1" decimal-length="{{ 1 }}" min="0" max="1.0" bind:change="usm_k_gray"/>
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <view>
+              <van-button round type="info" size="small" bindtap="linearTransform_gray">线性变换</van-button>
+            </view>
+            <view>
+              <van-button round type="info" size="small" bindtap="histEqual_gray">直方图均衡</van-button>
+            </view>
+            <view>
+              <van-button round type="info" size="small" bindtap="sharpen_gray">核锐化</van-button>
+            </view>
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <view>
+              <van-button round type="info" size="small" bindtap="usm_gray">USM锐化</van-button>
+            </view>
+            <view>
+              <van-button round type="info" size="small" bindtap="gaussianFilter_gray">高斯模糊</van-button>
+            </view>
+             <view>
+              <van-button round type="info" size="small" bindtap="removeShadow_gray">去阴影</van-button>
+            </view>
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="二值空间" name="black">
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <text>分块行数</text>
+            <van-stepper value="{{ 1 }}" bind:change="block_height"/>
+          </view>
+          <view class="button-area">
+            <text>分块列数</text>
+            <van-stepper value="{{ 1 }}" bind:change="block_width"/>
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <text>n</text>
+            <van-stepper value="{{ 20 }}" bind:change="move_n"/>
+          </view>
+          <view class="button-area">
+            <text>b</text>
+            <van-stepper value="{{ 0.5 }}" step="0.1" decimal-length="{{ 1 }}" min="0" max="1.0" bind:change="move_b" />
+          </view>
+        </view>
+        <view class="process-button-box" wx:if="{{img != 0}}">
+          <view class="button-area">
+            <view>
+              <van-button round type="info" size="small" bindtap="moveThreshold">移动平均</van-button>
+            </view>
+            <view>
+              <van-button round type="info" size="small" bindtap="otsuSeperate">Otsu分割</van-button>
+            </view>
+          </view>
+        </view>
+      </van-tab>
+    </van-tabs>
+
+  </scroll-view>
+</view>

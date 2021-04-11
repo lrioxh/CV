@@ -75,23 +75,43 @@ def movingThreshold(img,n=20,b=0.5):
     new_img = np.uint8(new_img)
     return new_img
 
-def movingthreshold(f, n=20, k=0.5):
-    shape = f.shape
-    assert n >= 1
-    assert 0 < k < 1
-    f[1:-1:2, :] = np.fliplr(f[1:-1:2, :])
-    f = f.flatten()
-    maf = np.ones(n) / n
-    res_filter = lfilter(maf, 1, f)
-    g = np.array(f > k * res_filter).astype(int)
-    g = g.reshape(shape)
-    g[1:-1:2, :] = np.fliplr(g[1:-1:2, :])
-    g = g * 255
-
-    return g
 
 def binopen(img,ks=3):
     ret, binary = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (ks, ks))
     ret = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel, iterations=1)
     return ret
+
+def binclose(img,ks=3):
+    ret, binary = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (ks, ks))
+    ret = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel, iterations=1)
+    return ret
+
+
+def movethreshold(img,n=5,b=0.9):
+    border=int(n/2)
+    padding=cv2.copyMakeBorder(img, border, border, border, border, cv2.BORDER_CONSTANT, value=0)
+    r = img.shape[0]
+    c = img.shape[1]
+    res = np.zeros(img.shape, np.uint8)
+    # for i in range(r):
+    #     for j in range(c):
+    #         zone=padding[i:i+n,j:j+n]
+    #         mean=np.mean(zone[zone>0])
+    #         res[i,j]=1 if img[i,j] > mean*b else 0
+    for i in range(border,border+r):
+        for j in range(border,border+c):
+            # print(j)
+            if j==border:
+                M=np.mean(padding[i-border:i+border+1,j-border:j+border+1])
+                # M=M[0][0]
+            else:
+                Mf=M
+                # M2, S22 = cv2.meanStdDev(padding[i - border:i + border+1, j - border:j + border+1])
+                now=padding[i-border:i+border+1,j+border].astype("int32")
+                before=padding[i-border:i+border+1,j-border-1].astype("int32")
+                M=round(Mf+float(sum(now)-sum(before))/n**2,7)
+            # print(M*b)
+            res[i-border, j-border] = 1 if padding[i, j] > M * b else 0
+    return res*255

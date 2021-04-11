@@ -1,9 +1,8 @@
 ###  pyuic5 -o ./scanner/ui.py ./scanner/scanner.ui
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
-import numpy as np
-import ui, scan
+import scanner.ui as ui
+import scanner.scan as scan
 
 
 class MainDialog(QMainWindow):
@@ -19,8 +18,9 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_11.clicked.connect(self.back)
         self.ui.pushButton_3.clicked.connect(self.save)
         self.ui.pushButton_2.clicked.connect(self.reset)
+        self.ui.pushButton_26.clicked.connect(self.choosemulti)
         self.ui.pushButton_6.clicked.connect(lambda:self.RGBwhich(6))
-        self.ui.pushButton_7.clicked.connect(lambda:self.RGBwhich(7))
+        # self.ui.pushButton_7.clicked.connect(lambda:self.RGBwhich(7))
         self.ui.pushButton_8.clicked.connect(lambda:self.RGBwhich(8))
         self.ui.pushButton_9.clicked.connect(lambda:self.RGBwhich(9))
         self.ui.pushButton_10.clicked.connect(lambda:self.RGBwhich(10))
@@ -38,9 +38,15 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_23.clicked.connect(lambda:self.Graywhich(23))
         self.ui.pushButton_24.clicked.connect(lambda:self.Graywhich(24))
         self.ui.pushButton_25.clicked.connect(lambda:self.Binwhich(25))
+        self.ui.pushButton_27.clicked.connect(lambda:self.Binwhich(27))
+        self.ui.pushButton_28.clicked.connect(lambda:self.Graywhich(28))
+        self.ui.pushButton_29.clicked.connect(lambda:self.RGBwhich(29))
+        self.ui.pushButton_30.clicked.connect(lambda:self.Graywhich(30))
+        self.ui.pushButton_31.clicked.connect(lambda:self.RGBwhich(31))
 
 
-
+    def choosemulti(self):
+        return scan.choosemulti(self)
     def reset(self):
         return scan.reset(self)
     def save(self):

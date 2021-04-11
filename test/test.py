@@ -57,9 +57,9 @@ import matplotlib.pyplot as plt
 # cv2.waitKey()
 # cv2.destroyAllWindows()
 
-img=cv2.imread('../images/HM$(}RMJND)]%JS~PYV7%]P.jpg')
-h,w=img.shape[:2]
-padding=cv2.copyMakeBorder(img, 0,h,0,w, cv2.BORDER_CONSTANT, value=0)
+# img=cv2.imread('../images/HM$(}RMJND)]%JS~PYV7%]P.jpg')
+# h,w=img.shape[:2]
+# padding=cv2.copyMakeBorder(img, 0,h,0,w, cv2.BORDER_CONSTANT, value=0)
 # filt=np.zeros((h*2, w*2), dtype="float32")
 # size=101
 # sigma = 0.3*((size-1)*0.5-1)+0.8
@@ -67,7 +67,9 @@ padding=cv2.copyMakeBorder(img, 0,h,0,w, cv2.BORDER_CONSTANT, value=0)
 #     for j in range(w * 2):
 #         filt[i, j] = np.exp(-((i - (h - 1) / 2) ** 2 + (j - (w - 1) / 2) ** 2) / (2 * sigma ** 2))
 # print(np.max(filt))
-print(padding.shape)
-cv2.imshow(" ", padding)
-cv2.waitKey()
-cv2.destroyAllWindows()
+# print(padding.shape)
+# cv2.imshow(" ", padding)
+# cv2.waitKey()
+# cv2.destroyAllWindows()
+
+t=[1,2].copy()
