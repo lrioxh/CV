@@ -1,20 +1,90 @@
 import os
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
-import cv2
-import numpy as np
 from scanner.fucRGB import *
 from scanner.fucBin import *
 from scanner.fucGray import *
-
+# from scanner.drawPlt import Point_Move
 
 def init(self):
     self.imgCache = np.ndarray(())
     self.imgLast = np.ndarray(())
     self.imgOgl=np.ndarray(())
+    self.imgTrans=np.ndarray(())
+    self.imgShow=np.ndarray(())
     self.imgMulti=[]
+    self.points=np.zeros((4,2),np.float32)
     self.fname=''
     self.Ogl=0
+
+def mouseReleaseEvent(self, e):
+    if self.imgShow.size>1:
+        h = self.imgShow.shape[0]
+        w = self.imgShow.shape[1]
+        globalpos=e.globalPos()
+        pos=self.ui.label.mapFromGlobal(globalpos)
+        # print(pos)
+        if pos.y()<730 and pos.y()>0 and pos.x()>0 and pos.x()<900:
+            x= pos.x()/900*w
+            y = pos.y() / 730 * h
+            if self.ui.lineEdit.text()=='':
+                self.ui.lineEdit.setText(' %d,%d'% (x,y))
+                self.points[0,:]=(x,y)
+            elif self.ui.lineEdit_3.text()=='':
+                self.ui.lineEdit_3.setText(' %d,%d'% (x,y))
+                self.points[1,:]=(x,y)
+            elif self.ui.lineEdit_2.text()=='':
+                self.ui.lineEdit_2.setText(' %d,%d'% (x,y))
+                self.points[2,:]=(x,y)
+            else:
+                self.ui.lineEdit_4.setText(' %d,%d'% (x,y))
+                self.points[3,:]=(x,y)
+
+def rotate(self):
+    if self.imgCache.size == 1:
+        return
+    self.imgLast=self.imgCache.copy()
+    h, w = self.imgCache.shape[:2]
+    M = cv2.getRotationMatrix2D((w / 2, h / 2), -90, 1)
+    angle =  -np.pi / 2
+    w_ = round(w * abs(np.cos(angle)) + h * abs(np.sin(angle)) + 0.5)
+    h_ = round(w * abs(np.sin(angle)) + h * abs(np.cos(angle)) + 0.5)
+    M[0, 2] += (w_ - w) / 2
+    M[1, 2] += (h_ - h) / 2
+    self.imgCache = cv2.warpAffine(self.imgCache, M, (w_, h_))
+    refreshShow(self, self.imgCache)
+
+def trans(self):
+    if self.imgCache.size == 1:
+        return
+    self.imgLast=self.imgCache.copy()
+    if np.sum(self.points[3,:])>0:
+        self.imgCache = four_point_transform(self.imgShow, self.points)
+        self.imgTrans = self.imgCache.copy()
+        refreshShow(self, self.imgCache)
+        # clear(self)
+    else:
+        msg_box = QMessageBox(QMessageBox.Warning, '提示', '单击四点标定方形区域  ')
+        msg_box.exec_()
+
+def clear(self):
+    self.points=np.zeros((4,2),np.float32)
+    self.ui.lineEdit.setText('')
+    self.ui.lineEdit_2.setText('')
+    self.ui.lineEdit_3.setText('')
+    self.ui.lineEdit_4.setText('')
+
+def detect(self):
+    if self.imgCache.size == 1:
+        return
+    self.imgLast=self.imgCache.copy()
+    try:
+        self.imgCache=transform(self.imgCache)
+        self.imgTrans = self.imgCache.copy()
+        refreshShow(self, self.imgCache)
+    except:
+        msg_box = QMessageBox(QMessageBox.Warning, '提示', '提取边界出错  ')
+        msg_box.exec_()
 
 
 def Binwhich(self,btn):
@@ -97,6 +167,8 @@ def Graywhich(self,btn):
                 cache = grayclose(cache,ks=3)
             elif btn == 30:
                 cache = cv2.medianBlur(cache,3)
+            elif btn == 33:
+                cache = streching2(cache)
             self.imgCache[(i * hh):((i + 1) * hh), (j * hw):((j + 1) * hw)] = cache
     # self.img=gauss_division(self.img)
     refreshShow(self, self.imgCache)
@@ -146,13 +218,15 @@ def RGBwhich(self,btn):
                 cache = erode(cache)
             elif btn == 31:
                 cache = cv2.medianBlur(cache, 3)
+            elif btn == 32:
+                cache = streching2(cache)
             self.imgCache[(i * hh):((i + 1) * hh), (j * hw):((j + 1) * hw), :] = cache
     # self.img=gauss_division(self.img)
     refreshShow(self, self.imgCache)
 
 
 def refreshShow(self,img):
-    # self.imgShow = img
+    self.imgShow = img
     if img.size == 1:
         return
     self.Ogl = 0
@@ -184,9 +258,8 @@ def refreshShow(self,img):
         w_ = w
         M[0, 2] += (w_ - w) / 2
         M[1, 2] += (h_ - h) / 2
-
-    # print(1)
     img = cv2.warpAffine(img, M, (w_, h_))
+    self.imgShow = img
     # cv2.imshow('pic', self.imgShow)
     data = img.tobytes()
     if len(self.imgCache.shape) == 3:
@@ -200,7 +273,7 @@ def refreshShow(self,img):
 
 
 def choosepic(self):
-    fileName, tmp = QFileDialog.getOpenFileName(self, '打开图像', 'Image', '*.png *.jpg *.bmp')
+    fileName, tmp = QFileDialog.getOpenFileName(self, '打开图像', 'Image', '*.png *.jpg *.bmp *.jpeg')
     print(fileName)
     if fileName is '':
         return
@@ -216,17 +289,20 @@ def choosepic(self):
     if self.imgCache.size == 1:
         return
     self.fname=file_name.split('.')[0]
-    self.imgOgl = self.imgCache.copy()
     # self.h, self.w = self.img.shape[:2]
     if self.imgCache.shape[2] == 4:
         self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGRA2BGR)
+    self.imgOgl = self.imgCache.copy()
+    self.imgLast = self.imgCache.copy()
+    self.imgTrans=np.ndarray(())
+    clear(self)
     print(self.imgCache.shape)
     refreshShow(self,self.imgCache)
 
 def choosemulti(self):
-    fileName, tmp = QFileDialog.getOpenFileNames(self, '打开图像', 'Image', '*.png *.jpg *.bmp')
+    fileName, tmp = QFileDialog.getOpenFileNames(self, '打开图像', '', '*.png *.jpg *.bmp')
     # print(fileName, tmp)
-    if tmp is []:
+    if len(fileName) ==0:
         return
     self.nfiles=len(fileName)
     # print(tmp)
@@ -258,22 +334,25 @@ def choosemulti(self):
 def compare(self):
     if self.Ogl==0:
         self.Ogl=1
-        refreshShow2(self)
+        if self.imgTrans.size > 1:
+            refreshShow2(self, self.imgTrans)
+        else:
+            refreshShow2(self, self.imgOgl)
     else:
         self.Ogl=0
         self.ui.label_2.setPixmap(QtGui.QPixmap(""))
 
-def refreshShow2(self):
-    if self.imgOgl.size == 1:
+def refreshShow2(self,img):
+    if img.size == 1:
         return
     w_label = self.ui.label_2.width()
     h_label = self.ui.label_2.height()
-    h = self.imgOgl.shape[0]
-    w = self.imgOgl.shape[1]
+    h = img.shape[0]
+    w = img.shape[1]
     M = np.float32([[1, 0, 0], [0, 1, 0]])
     if h / w == h_label / w_label:
-        data = self.imgOgl.tobytes()
-        if len(self.imgOgl.shape) == 3:
+        data = img.tobytes()
+        if len(img.shape) == 3:
             image = QtGui.QImage(data, w, h, w * 3, QtGui.QImage.Format_BGR888)
         else:
             image = QtGui.QImage(data, w, h, w, QtGui.QImage.Format_Grayscale8)
@@ -293,7 +372,7 @@ def refreshShow2(self):
         M[1, 2] += (h_ - h) / 2
 
     # print(1)
-    data = cv2.warpAffine(self.imgOgl, M, (w_, h_))
+    data = cv2.warpAffine(img, M, (w_, h_))
     # cv2.imshow('pic', self.imgShow)
     data = data.tobytes()
     if len(self.imgOgl.shape) == 3:
@@ -343,9 +422,10 @@ def reset(self):
     self.ui.spinBox.setValue(1)
     if self.imgOgl.size>1:
         self.imgCache = self.imgOgl.copy()
+        self.imgTrans=np.ndarray(())
         refreshShow(self, self.imgCache)
+        # self.points=np.zeros((4,2),np.float32)
     # else:
     #     msg_box = QMessageBox(QMessageBox.Warning, '提示', '请选择图像  ')
     #     msg_box.exec_()
-
 

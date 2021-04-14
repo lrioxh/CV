@@ -1,6 +1,7 @@
 ###  pyuic5 -o ./scanner/ui.py ./scanner/scanner.ui
 import sys
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
 import scanner.ui as ui
 import scanner.scan as scan
 
@@ -43,8 +44,21 @@ class MainDialog(QMainWindow):
         self.ui.pushButton_29.clicked.connect(lambda:self.RGBwhich(29))
         self.ui.pushButton_30.clicked.connect(lambda:self.Graywhich(30))
         self.ui.pushButton_31.clicked.connect(lambda:self.RGBwhich(31))
+        self.ui.pushButton_32.clicked.connect(lambda:self.RGBwhich(32))
+        self.ui.pushButton_33.clicked.connect(lambda:self.Graywhich(33))
+        self.ui.pushButton_34.clicked.connect(self.detect)
+        self.ui.pushButton_36.clicked.connect(self.clear)
+        self.ui.pushButton_35.clicked.connect(self.trans)
+        self.ui.pushButton_37.clicked.connect(self.rotate)
 
-
+    def rotate(self):
+        return scan.rotate(self)
+    def trans(self):
+        return scan.trans(self)
+    def clear(self):
+        return scan.clear(self)
+    def detect(self):
+        return scan.detect(self)
     def choosemulti(self):
         return scan.choosemulti(self)
     def reset(self):
@@ -65,6 +79,10 @@ class MainDialog(QMainWindow):
         return scan.choosepic(self)
     def compare(self):
         return scan.compare(self)
+
+    def mouseReleaseEvent(self, e):
+        if Qt.LeftButton:
+            return scan.mouseReleaseEvent(self,e)
 
 
 

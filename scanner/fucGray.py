@@ -44,7 +44,7 @@ def unevenLightCompensate(gray, blockSize=16):
     return dst
 
 def hat_demo(image,ks=5):
-    """底帽变换"""
+    """底帽变换,闭减原图"""
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (ks, ks))
     # kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (ks, ks))
     # top_dst = cv2.morphologyEx(gray, cv2.MORPH_TOPHAT, kernel)

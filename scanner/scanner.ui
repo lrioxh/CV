@@ -44,8 +44,8 @@
      <rect>
       <x>360</x>
       <y>30</y>
-      <width>901</width>
-      <height>731</height>
+      <width>900</width>
+      <height>730</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -78,9 +78,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>190</y>
+      <y>220</y>
       <width>301</width>
-      <height>201</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="title">
@@ -115,9 +115,9 @@
     <widget class="QPushButton" name="pushButton_9">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>120</x>
        <y>150</y>
-       <width>81</width>
+       <width>71</width>
        <height>28</height>
       </rect>
      </property>
@@ -129,7 +129,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>70</y>
+       <y>110</y>
        <width>81</width>
        <height>28</height>
       </rect>
@@ -169,7 +169,7 @@
       <rect>
        <x>50</x>
        <y>150</y>
-       <width>81</width>
+       <width>71</width>
        <height>28</height>
       </rect>
      </property>
@@ -193,9 +193,9 @@
     <widget class="QPushButton" name="pushButton_31">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>110</y>
-       <width>81</width>
+       <x>190</x>
+       <y>150</y>
+       <width>71</width>
        <height>28</height>
       </rect>
      </property>
@@ -203,14 +203,27 @@
       <string>中值滤波</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_32">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>70</y>
+       <width>81</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>自适应拉伸</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>410</y>
+      <y>430</y>
       <width>301</width>
-      <height>201</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="title">
@@ -284,9 +297,9 @@
     <widget class="QPushButton" name="pushButton_22">
      <property name="geometry">
       <rect>
-       <x>50</x>
+       <x>130</x>
        <y>70</y>
-       <width>81</width>
+       <width>51</width>
        <height>28</height>
       </rect>
      </property>
@@ -346,14 +359,27 @@
       <string>中值滤波</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_33">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>70</y>
+       <width>81</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>自适应拉伸</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>630</y>
+      <y>640</y>
       <width>301</width>
-      <height>121</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="title">
@@ -430,8 +456,8 @@
      <rect>
       <x>360</x>
       <y>30</y>
-      <width>901</width>
-      <height>731</height>
+      <width>900</width>
+      <height>730</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -525,7 +551,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>demo v1.74 </string>
+     <string>demo v1.76 </string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_26">
@@ -541,6 +567,124 @@
      <string>批处理</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_34">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>140</y>
+      <width>71</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>自动变换</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>130</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>170</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_3">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>150</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_4">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>190</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_35">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>170</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>手动变换</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_36">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>140</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>清空</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_37">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>170</y>
+      <width>71</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>旋转</string>
+    </property>
+   </widget>
+   <zorder>pushButton_36</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>label</zorder>
+   <zorder>pushButton_2</zorder>
+   <zorder>groupBox</zorder>
+   <zorder>groupBox_2</zorder>
+   <zorder>groupBox_3</zorder>
+   <zorder>pushButton_3</zorder>
+   <zorder>label_2</zorder>
+   <zorder>pushButton_4</zorder>
+   <zorder>pushButton_5</zorder>
+   <zorder>label_3</zorder>
+   <zorder>pushButton_11</zorder>
+   <zorder>spinBox</zorder>
+   <zorder>label_4</zorder>
+   <zorder>pushButton_26</zorder>
+   <zorder>pushButton_34</zorder>
+   <zorder>lineEdit</zorder>
+   <zorder>lineEdit_2</zorder>
+   <zorder>lineEdit_3</zorder>
+   <zorder>lineEdit_4</zorder>
+   <zorder>pushButton_35</zorder>
+   <zorder>pushButton_37</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
