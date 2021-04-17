@@ -102,11 +102,11 @@ def refreshShow(self):
         return
     elif self.h2/self.w2>298/252:
         h_=self.h2
-        w_=round(self.h2*252/298+0.5)
+        w_=int(self.h2*252/298+0.5)
         M[0, 2] += (w_ - self.w2) / 2
         M[1, 2] += (h_ - self.h2) / 2
     else:
-        h_ = round(self.w2 * 298 / 252+0.5)
+        h_ = int(self.w2 * 298 / 252+0.5)
         w_ = self.w2
         M[0, 2] += (w_ - self.w2) / 2
         M[1, 2] += (h_ - self.h2) / 2
@@ -206,11 +206,11 @@ def local_enhance(self):
         return
     elif self.h2 / self.w2 > 298 / 252:
         h_ = self.h2
-        w_ = round(self.h2 * 252 / 298 + 0.5)
+        w_ = int(self.h2 * 252 / 298 + 0.5)
         M[0, 2] += (w_ - self.w2) / 2
         M[1, 2] += (h_ - self.h2) / 2
     else:
-        h_ = round(self.w2 * 298 / 252 + 0.5)
+        h_ = int(self.w2 * 298 / 252 + 0.5)
         w_ = self.w2
         M[0, 2] += (w_ - self.w2) / 2
         M[1, 2] += (h_ - self.h2) / 2

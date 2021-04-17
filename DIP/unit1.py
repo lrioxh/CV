@@ -73,11 +73,11 @@ def refreshShow(self):
         return
     elif self.h/self.w>3/4:
         h_=self.h
-        w_=round(self.h*4/3+0.5)
+        w_=int(self.h*4/3+0.5)
         M[0, 2] += (w_ - self.w) / 2
         M[1, 2] += (h_ - self.h) / 2
     else:
-        h_ = round(self.w * 3 / 4+0.5)
+        h_ = int(self.w * 3 / 4+0.5)
         w_ = self.w
         M[0, 2] += (w_ - self.w) / 2
         M[1, 2] += (h_ - self.h) / 2
@@ -106,8 +106,8 @@ def mouseReleaseEvent(self, e):
         pos=self.ui.label_10.mapFromGlobal(globalpos)
         # print(pos)
         if pos.y()<540 and pos.y()>0 and pos.x()>0 and pos.x()<720:
-            x=round(pos.x()/720*w)
-            y = round(pos.y() / 540 * h)
+            x=int(pos.x()/720*w)
+            y = int(pos.y() / 540 * h)
             # print(x,y)
             # print(self.imgShow[y,x])
             self.ui.textBrowser_4.setText(' (%s, %s)'% (x,y))
@@ -161,8 +161,8 @@ def rotate(self):
             a=float(a)
             M = cv2.getRotationMatrix2D((self.w / 2, self.h / 2), a, 1)
             angle = a * np.pi / 180
-            w = round(self.w * abs(np.cos(angle)) + self.h * abs(np.sin(angle)) + 0.5)
-            h = round(self.w * abs(np.sin(angle)) + self.h * abs(np.cos(angle)) + 0.5)
+            w = int(self.w * abs(np.cos(angle)) + self.h * abs(np.sin(angle)) + 0.5)
+            h = int(self.w * abs(np.sin(angle)) + self.h * abs(np.cos(angle)) + 0.5)
             M[0, 2] += (w - self.w) / 2
             M[1, 2] += (h - self.h) / 2
             self.img = cv2.warpAffine(self.img, M, (w, h))

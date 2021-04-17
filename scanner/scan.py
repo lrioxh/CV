@@ -47,8 +47,8 @@ def rotate(self):
     h, w = self.imgCache.shape[:2]
     M = cv2.getRotationMatrix2D((w / 2, h / 2), -90, 1)
     angle =  -np.pi / 2
-    w_ = round(w * abs(np.cos(angle)) + h * abs(np.sin(angle)) + 0.5)
-    h_ = round(w * abs(np.sin(angle)) + h * abs(np.cos(angle)) + 0.5)
+    w_ = int(w * abs(np.cos(angle)) + h * abs(np.sin(angle)) + 0.5)
+    h_ = int(w * abs(np.sin(angle)) + h * abs(np.cos(angle)) + 0.5)
     M[0, 2] += (w_ - w) / 2
     M[1, 2] += (h_ - h) / 2
     self.imgCache = cv2.warpAffine(self.imgCache, M, (w_, h_))
