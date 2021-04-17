@@ -2,8 +2,8 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import numpy as np
-import cv_ui
-import unit1,unit2,unit3,unit4,unit5,unit6
+import DIP.cv_ui as cv_ui
+from DIP import unit1,unit2,unit3,unit4,unit5,unit6
 
 
 # def create_uuid(): #生成唯一的图片的名称字符串
@@ -25,6 +25,7 @@ class MainDialog(QMainWindow):
         self.img = np.ndarray(())
         self.imgOrg=np.ndarray(())
         self.imgShow = np.ndarray(())
+        self.fname =''
         self.w=0
         self.h=0
         self.c=1

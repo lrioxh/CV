@@ -2,6 +2,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import *
 import cv2
 import numpy as np
+import os
 
 
 def clear(self):
@@ -17,17 +18,25 @@ def clear(self):
     self.ui.label_10.setPixmap(QtGui.QPixmap(""))
 
 def select_button_clicked(self):
-    fileName, tmp = QFileDialog.getOpenFileName(self, '打开图像', 'Image', '*.png *.jpg *.bmp')
+    fileName, tmp = QFileDialog.getOpenFileName(self, '打开图像', 'Image', '*.png *.jpg *.bmp *.jpeg')
     print(fileName)
     if fileName is '':
         return
-    self.img = cv2.imread(fileName, -1)
-    self.imgOrg = self.img
-    # cv2.imshow('pic', self.img)
-    if self.img.size == 1:
+    root_dir, file_name = os.path.split(fileName)  # 按照路径将文件名和路径分割开
+    pwd = os.getcwd()  # 返回当前工作目录
+    if root_dir:
+        os.chdir(root_dir)  # 改变当前工作目录到指定的路径。
+    self.img = cv2.imread(file_name, -1)
+    os.chdir(pwd)
+    if self.img.size <= 1:
         return
+    self.fname = file_name.split('.')[0]
+    self.imgOrg = self.img.copy()
     if len(self.img.shape) == 3:
         self.c = self.img.shape[2]
+        if self.img.shape[2] == 4:
+            self.img = cv2.cvtColor(self.img, cv2.COLOR_BGRA2BGR)
+    print(self.img.shape)
     refreshShow(self)
 
 def reset(self):
@@ -201,11 +210,16 @@ def trans_by_rate(self):
 
 def saveimg(self):
     if self.img.size>1:
-        fileName, tmp = QFileDialog.getSaveFileName(self, '保存图像', 'Image', '*.png *.jpg *.bmp')
+        fileName, tmp = QFileDialog.getSaveFileName(self, '保存图像', str(self.fname)+'_fin', '*.png *.jpg *.bmp')
         if fileName is '':
             return
         print(fileName)
-        cv2.imwrite(fileName, self.img)
+        root_dir, file_name = os.path.split(fileName)  # 按照路径将文件名和路径分割开
+        pwd = os.getcwd()  # 返回当前工作目录
+        if root_dir:
+            os.chdir(root_dir)  # 改变当前工作目录到指定的路径。
+        cv2.imwrite(file_name, self.img)
+        os.chdir(pwd)
     else:
         msg_box = QMessageBox(QMessageBox.Warning, '提示', '图像为空，无法保存  ')
         msg_box.exec_()

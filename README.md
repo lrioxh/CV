@@ -1,16 +1,14 @@
 ## 计算机视觉图形界面程序
 
-
-
-使用OpenCV及Pyqt5
-
-演示视频https://www.bilibili.com/video/BV1oz4y1y7DP
+主要使用OpenCV及Pyqt5
 
 
 
 #### DIP基础
 
 包含以下模块的GUI程序
+
+演示视频https://www.bilibili.com/video/BV1oz4y1y7DP
 
 > unit1：基本操作
 >
@@ -31,6 +29,8 @@
 #### 扫描全能王
 
 基于数字图像处理操作实现高自由度的图像视觉增强锐化等处理，及图像兴趣区域半自动框选矫正
+
+演示视频https://www.bilibili.com/video/BV1rZ4y1c7Rg
 
 PC端运行 ./scanner/main.py
 

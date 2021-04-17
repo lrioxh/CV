@@ -52,6 +52,7 @@ def rotate(self):
     M[0, 2] += (w_ - w) / 2
     M[1, 2] += (h_ - h) / 2
     self.imgCache = cv2.warpAffine(self.imgCache, M, (w_, h_))
+    self.imgTrans = self.imgCache.copy()
     refreshShow(self, self.imgCache)
 
 def trans(self):
@@ -283,15 +284,15 @@ def choosepic(self):
         os.chdir(root_dir)  # 改变当前工作目录到指定的路径。
     # self.img = cv2.imread(file_name)
     self.imgCache = cv2.imread(file_name, -1)
-    # self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGR2RGB)
     os.chdir(pwd)
     # cv2.imshow('pic', self.img)
-    if self.imgCache.size == 1:
+    if self.imgCache.size <= 1:
         return
     self.fname=file_name.split('.')[0]
     # self.h, self.w = self.img.shape[:2]
-    if self.imgCache.shape[2] == 4:
-        self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGRA2BGR)
+    if len(self.imgCache.shape) == 3:
+        if self.imgCache.shape[2] == 4:
+            self.imgCache = cv2.cvtColor(self.imgCache, cv2.COLOR_BGRA2BGR)
     self.imgOgl = self.imgCache.copy()
     self.imgLast = self.imgCache.copy()
     self.imgTrans=np.ndarray(())
