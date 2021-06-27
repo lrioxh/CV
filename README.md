@@ -44,7 +44,7 @@ PC端运行 ./scanner/main.py
 
 重建环境参考https://yongqi.blog.csdn.net/article/details/110252018
 
-在此只提供flask后端及小程序代码
+在此只提供pc程序，flask后端及小程序代码
 
 
 
