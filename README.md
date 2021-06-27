@@ -38,3 +38,13 @@ PC端运行 ./scanner/main.py
 
 
 
+#### SFM+PMVS三维重建
+
+基于openMVG和CMVS-PMVS库，对一组图像重建得到稠密点云及网格。
+
+重建环境参考https://yongqi.blog.csdn.net/article/details/110252018
+
+在此只提供flask后端及小程序代码
+
+
+
