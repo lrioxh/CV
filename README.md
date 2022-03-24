@@ -4,7 +4,7 @@
 
 
 
-#### DIP基础
+#### DIP基础   [GO](https://github.com/lrioxh/CV/tree/main/DIP)
 
 包含以下模块的GUI程序
 
@@ -26,7 +26,7 @@
 
 
 
-#### 扫描全能王
+#### 扫描全能王   [GO](https://github.com/lrioxh/CV/tree/main/scanner)
 
 基于数字图像处理操作实现高自由度的图像视觉增强锐化等处理，及图像兴趣区域半自动框选矫正
 
@@ -38,7 +38,7 @@ PC端运行 ./scanner/main.py
 
 
 
-#### SFM+PMVS三维重建
+#### SFM+PMVS三维重建   [GO](https://github.com/lrioxh/CV/tree/main/TDre)
 
 基于openMVG和CMVS-PMVS库，对一组图像重建得到稠密点云及网格。
 
